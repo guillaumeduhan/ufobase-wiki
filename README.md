@@ -17,9 +17,17 @@ A lightning-fast, SEO-optimized starter built with Astro and Tailwind CSS. Ideal
 
 ```plaintext
 ├── public/
+│   ├── images
+│   ├── favicon.png
+│   ├── logo.jpg
+│   ├── robot.txt
+│   └── sitemap.xml
 ├── src/
 │   ├── components/
 │   │   ├── DarkMode.astro
+│   │   ├── Header.astro
+│   │   ├── Latest.astro
+│   │   ├── Logo.astro
 │   │   └── Header.astro
 │   ├── content/
 │   │   └── *.mdx
@@ -27,11 +35,16 @@ A lightning-fast, SEO-optimized starter built with Astro and Tailwind CSS. Ideal
 │   │   └── Layout.astro
 │   ├── pages/
 │   │   ├── index.astro
+│   │   ├── 500.astro
 │   │   └── [slug].astro
+│   ├── plugins/
+│   │   └── remark-utm-source.ts
 │   └── styles/
 │       └── global.css
 ├── astro.config.mjs
+├── makefile
 ├── package.json
+├── tailwind.config.mjs
 └── tsconfig.json
 ```
 
