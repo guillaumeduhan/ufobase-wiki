@@ -1,0 +1,38 @@
+---
+// Latest.astro
+
+interface PageLink {
+  slug: string;
+  title: string;
+  date: string;
+}
+
+const pages = import.meta.glob<{ frontmatter: { title?: string; date?: string } }>('/src/content/*.mdx', { eager: true });
+
+const links: PageLink[] = Object.entries(pages)
+  .map(([path, mod]) => {
+    const slug = path
+      .replace('/src/content/', '')
+      .replace('.mdx', '');
+
+    return {
+      slug,
+      title: mod.frontmatter?.title ?? slug,
+      date: mod.frontmatter?.date ?? '1970-01-01', // fallback to old date if missing
+    };
+  })
+  .filter((link) => link.slug.toLowerCase() !== 'index')
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // sort by latest date
+  .slice(0, 5); // take 5 latest
+---
+
+<div class="grid mb-12">
+  <p class="font-[500]">Latest Articles Published:</p>
+  <ul>
+    {links.map((link: any) => <li><a
+        href={`/${link.slug}`}
+      >
+        {link.title}
+      </a></li>)}
+  </ul>
+</div>

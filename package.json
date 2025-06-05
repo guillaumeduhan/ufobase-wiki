@@ -19,7 +19,10 @@
     "astro-seo": "^0.8.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "rehype-external-links": "^3.0.0",
+    "remark-attr": "^0.11.1",
     "sass": "^1.89.0",
-    "tailwindcss": "^4.1.7"
+    "tailwindcss": "^4.1.7",
+    "unist-util-visit": "^5.0.0"
   }
 }

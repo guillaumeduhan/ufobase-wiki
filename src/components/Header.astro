@@ -2,14 +2,16 @@
 import DarkMode from './DarkMode.astro';
 import Logo from './Logo.astro';
 ---
+
 <header class="fixed h-16 flex items-center justify-between w-full z-10 px-4 border-b">
-  <div class="w-10/12">
+  <div class="w-6/12 lg:w-10/12">
     <a href="/" class="text-inherit no-underline flex items-center gap-2">
       <Logo size="h-8" />
       <h1 class="mb-0 text-[16px] lg:text-[24px] truncate whitespace-nowrap">A lightning-fast & SEO-optimized template to build directories 2025</h1>
     </a>
   </div>
-  <nav class="w-2/12 flex items-center justify-end">
+  <nav class="w-6/12 lg:w-2/12 flex gap-2 items-center justify-end">
     <DarkMode />
   </nav>
 </header>
+

@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../layouts/Layout.astro';
+import Latest from '../components/Latest.astro';
 
 export async function getStaticPaths() {
   const dir = path.resolve('./src/content');
@@ -26,5 +27,6 @@ const { default: Content, frontmatter } = await import(`../content/${slug}.mdx`)
   <article>
     <h1>{frontmatter.title}</h1>
     <Content />
+    <Latest />
   </article>
 </Layout>
