@@ -59,8 +59,23 @@ const {
           "url": "https://astrodirectory.dev"
         }
       }
-      </script>
-      
+    </script>
+    
+    <!-- Plausible Analytics -->
+    <script defer data-domain="YOUR_DOMAIN_NAME" src="YOUR_DOMAIN_URL"></script>
+    <!-- Google Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_GOOGLE_ADS_PUB_CODE"
+     crossorigin="anonymous"></script>
+     <script>
+      declare global {
+        interface Window {
+          adsbygoogle: unknown[];
+        }
+      }
+    
+      window.adsbygoogle = window.adsbygoogle || [];
+      window.adsbygoogle.push({});
+    </script>
   </head>
   <body>
     <Header />
