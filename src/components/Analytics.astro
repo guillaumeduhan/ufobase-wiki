@@ -1,0 +1,75 @@
+---
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+interface Article {
+  date: Date;
+  keywords: string[];
+  wordCount: number;
+  backlinks: number;
+}
+
+const contentDir = './src/content';
+const articles: Article[] = fs
+  .readdirSync(contentDir)
+  .filter((file) => file.endsWith('.mdx'))
+  .map((file) => {
+    const raw = fs.readFileSync(path.join(contentDir, file), 'utf-8');
+    const { data, content } = matter(raw);
+    const wordCount = content.trim().split(/\s+/).length;
+    const backlinks = (content.match(/\]\(https?:\/\//g) || []).length;
+    return {
+      date: new Date(data.date),
+      keywords: data.keywords || [],
+      wordCount,
+      backlinks,
+    };
+  });
+
+const totalArticles: number = articles.length;
+const totalWords: number = articles.reduce((acc, a) => acc + a.wordCount, 0);
+const totalBacklinks: number = articles.reduce((acc, a) => acc + a.backlinks, 0);
+const allKeywords: string[] = articles.flatMap((a) => a.keywords);
+const keywordCounts: Record<string, number> = allKeywords.reduce((acc: Record<string, number>, k: string) => {
+  acc[k] = (acc[k] || 0) + 1;
+  return acc;
+}, {});
+const mostUsedKeyword: string = Object.entries(keywordCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A';
+const lastPublished: Date | string = articles.sort((a, b) => b.date.getTime() - a.date.getTime())[0]?.date || 'N/A';
+
+const sortedDates: Date[] = articles.map((a) => a.date).sort((a, b) => a.getTime() - b.getTime());
+let averageUpdate: string = 'N/A';
+if (sortedDates.length >= 2) {
+  const intervals: number[] = sortedDates.slice(1).map((date, i) => (date.getTime() - sortedDates[i].getTime()) / (1000 * 60 * 60 * 24));
+  const avg = intervals.reduce((acc, v) => acc + v, 0) / intervals.length;
+  averageUpdate = `${Math.round(avg)} days`;
+}
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="card">
+    <span class="text-xl font-bold">Total Articles</span>
+    <span class="text-2xl">{totalArticles}</span>
+  </div>
+  <div class="card">
+    <span class="text-xl font-bold">Total Words</span>
+    <span class="text-2xl">{totalWords.toLocaleString()}</span>
+  </div>
+  <div class="card">
+    <span class="text-xl font-bold">Total Backlinks</span>
+    <span class="text-2xl">{totalBacklinks}</span>
+  </div>
+  <div class="card">
+    <span class="text-xl font-bold">Last Published</span>
+    <span class="text-2xl">{typeof lastPublished === 'string' ? lastPublished : lastPublished.toLocaleDateString()}</span>
+  </div>
+  <div class="card">
+    <span class="text-xl font-bold">Average Update</span>
+    <span class="text-2xl">{averageUpdate}</span>
+  </div>
+  <div class="card">
+    <span class="text-xl font-bold">Most Used Keyword</span>
+    <span class="text-2xl">{mostUsedKeyword}</span>
+  </div>
+</div>

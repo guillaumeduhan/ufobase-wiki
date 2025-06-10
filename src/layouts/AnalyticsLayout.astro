@@ -1,0 +1,21 @@
+---
+// Private layout
+import Header from '../components/Header.astro';
+import '../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <slot name="head" />
+    <meta name="robots" content="noindex" />
+    <!-- Add your default head stuff here -->
+  </head>
+  <body>
+    <Header />
+    <main class="flex pt-16 z-50">
+        <section class="container mx-auto">
+            <slot />
+        </section>
+    </main>
+  </body>
+</html>

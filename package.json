@@ -17,6 +17,7 @@
     "@types/react-dom": "^19.1.5",
     "astro": "^5.7.13",
     "astro-seo": "^0.8.4",
+    "gray-matter": "^4.0.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "rehype-external-links": "^3.0.0",
