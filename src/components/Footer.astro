@@ -1,0 +1,157 @@
+---
+import Logo from "./Logo.astro";
+
+const resources = [
+  { name: "Astro Docs", url: "https://docs.astro.build" },
+  { name: "TailwindCSS Docs", url: "https://tailwindcss.com/docs" },
+  { name: "Next.js Docs", url: "https://nextjs.org/docs" },
+  { name: "Nuxt Docs", url: "https://nuxt.com/docs" },
+  { name: "React Docs", url: "https://react.dev" },
+  { name: "Vue Docs", url: "https://vuejs.org/guide/introduction.html" },
+  { name: "Svelte Docs", url: "https://svelte.dev/docs" },
+  { name: "RedwoodJS", url: "https://redwoodjs.com" },
+  { name: "Remix.run", url: "https://remix.run/docs" },
+  { name: "MDN Web Docs", url: "https://developer.mozilla.org" },
+  { name: "Stack Overflow", url: "https://stackoverflow.com" },
+  { name: "Dev.to", url: "https://dev.to" },
+];
+
+const templates = [
+  { name: "Astro Starter Kit", url: "https://astro.new" },
+  { name: "TailwindUI", url: "https://tailwindui.com" },
+  { name: "Shadcn/UI", url: "https://ui.shadcn.com" },
+  { name: "Templating.co", url: "https://templating.co" },
+  { name: "Astro Themes", url: "https://astro.build/themes" },
+  { name: "Start Bootstrap", url: "https://startbootstrap.com" },
+  { name: "Creative Tim", url: "https://www.creative-tim.com" },
+  { name: "HyperUI", url: "https://www.hyperui.dev" },
+  { name: "Flowbite", url: "https://flowbite.com" },
+  { name: "NextUI", url: "https://nextui.org" },
+  { name: "UIdeck Templates", url: "https://uideck.com" },
+  { name: "Cruip Templates", url: "https://cruip.com" },
+];
+
+const youtube = [
+  {
+    name: "CodewithGuillaume",
+    url: "https://www.youtube.com/@codewithguillaume",
+  },
+  {
+    name: "Josh Tried Coding",
+    url: "https://www.youtube.com/@joshtriedcoding",
+  },
+  { name: "Dorian Develops", url: "https://www.youtube.com/@DorianDevelops" },
+  { name: "Fireship", url: "https://www.youtube.com/@Fireship" },
+  { name: "Traversy Media", url: "https://www.youtube.com/@TraversyMedia" },
+  {
+    name: "Web Dev Simplified",
+    url: "https://www.youtube.com/@WebDevSimplified",
+  },
+  { name: "Coder Coder", url: "https://www.youtube.com/@TheCoderCoder" },
+  { name: "The Net Ninja", url: "https://www.youtube.com/@NetNinja" },
+  { name: "Kevin Powell", url: "https://www.youtube.com/@KevinPowell" },
+  { name: "Ben Awad", url: "https://www.youtube.com/@BenAwad" },
+  {
+    name: "JavaScript Mastery",
+    url: "https://www.youtube.com/@javascriptmastery",
+  },
+];
+---
+
+<footer
+  class="grid gap-12 border-t border-neutral-300 dark:border-neutral-800 w-full p-6"
+>
+  <div class="grid gap-4">
+    <div class="flex items-center gap-2 cursor-pointer">
+      <Logo size="size-10" />
+      <p class="font-[600]">AstroDirectory.dev</p>
+    </div>
+    <p class="text-neutral-600">
+      Looking to launch a directory website that ranks well on Google, loads
+      instantly, and scales? Use this template.
+    </p>
+  </div>
+  <div
+    class="w-full mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+  >
+    <!-- Resources -->
+    <div>
+      <p class="text-lg font-semibold mb-4">Other Resources</p>
+      <ul class="space-y-2 text-neutral-600">
+        {
+          resources.map((item) => (
+            <li>
+              <a
+                href={`${item.url}?utm_source=astrodirectory.dev`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-blue-600"
+              >
+                {item.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Templates -->
+    <div>
+      <p class="text-lg font-semibold mb-4">Templates</p>
+      <ul class="space-y-2 text-neutral-600">
+        {
+          templates.map((item) => (
+            <li>
+              <a
+                href={`${item.url}?utm_source=astrodirectory.dev`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-blue-600"
+              >
+                {item.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- YouTube -->
+    <div>
+      <p class="text-lg font-semibold mb-4">YouTube Channels</p>
+      <ul class="space-y-2 text-neutral-600">
+        {
+          youtube.map((item) => (
+            <li>
+              <a
+                href={`${item.url}?utm_source=astrodirectory.dev`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-blue-600"
+              >
+                {item.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="text-center text-black dark:text-white grid gap-4">
+    <p>
+      <strong>AstroDirectory.dev</strong> — Build a Lightning-Fast, SEO-Friendly
+      Directory.
+    </p>
+    <p>
+      Looking to launch a directory website that ranks well on Google, loads
+      instantly, and scales? Use this template.
+    </p>
+    <p>
+      Follow us on
+      <a href="https://dub.sh/codewithg-x" target="_blank" class="link">
+        Twitter</a
+      > | Share your projects | Help us grow the best dev directory 🚀
+    </p>
+  </div>
+</footer>

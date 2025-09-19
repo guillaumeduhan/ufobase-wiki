@@ -1,8 +1,10 @@
 ---
-import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Sidebar from '../components/Sidebar.astro';
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
 import { SEO } from "astro-seo";
+import Hero from "../components/Hero.astro";
+import Footer from "../components/Footer.astro";
 
 const {
   title = "AstroDirectory.dev — A lightning-fast & SEO-optimized template to build directories 2025",
@@ -10,7 +12,7 @@ const {
   image = "https://astrodirectory.dev/images/og-image.png",
   url = "https://astrodirectory.dev",
   twitterHandle = "@guillaumeduhan",
-  keywords = "Astro template, directory template, seo template, Astro directory, job board template, resource collection, fast website template, no CMS template, Astro + Tailwind, static site generator, Astro components, best Astro templates 2025"
+  keywords = "Astro template, directory template, seo template, Astro directory, job board template, resource collection, fast website template, no CMS template, Astro + Tailwind, static site generator, Astro components, best Astro templates 2025",
 } = Astro.props;
 ---
 
@@ -20,12 +22,13 @@ const {
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    
+
     <!-- SEO enhancements -->
     <meta name="keywords" content={keywords} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={url} />
-    <meta name="theme-color" content="#0f172a" /> <!-- Example dark color -->
+    <meta name="theme-color" content="#0f172a" />
+    <!-- Example dark color -->
 
     <SEO
       title={title}
@@ -35,8 +38,8 @@ const {
           title: title,
           type: "website",
           image: image,
-          url: url
-        }
+          url: url,
+        },
       }}
       twitter={{
         creator: twitterHandle,
@@ -60,32 +63,34 @@ const {
         }
       }
     </script>
-    
+
     <!-- Plausible Analytics -->
     <script defer data-domain="YOUR_DOMAIN_NAME" src="YOUR_DOMAIN_URL"></script>
     <!-- Google Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_GOOGLE_ADS_PUB_CODE"
-     crossorigin="anonymous"></script>
-     <script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_GOOGLE_ADS_PUB_CODE"
+      crossorigin="anonymous"></script>
+    <script>
       declare global {
         interface Window {
           adsbygoogle: unknown[];
         }
       }
-    
+
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
     </script>
   </head>
   <body>
-    <Header />
-    <main class="flex pt-16 z-50">
-      <Sidebar />
-      <section class="lg:pl-64 w-full">
-        <div class="max-w-[760px] mx-auto">
+    <Hero />
+    <main class="flex">
+      <section>
+        <div>
           <slot />
         </div>
       </section>
     </main>
+    <Footer />
   </body>
 </html>
