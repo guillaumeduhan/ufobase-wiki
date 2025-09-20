@@ -1,25 +1,27 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
-import Layout from '../layouts/Layout.astro';
-import Latest from '../components/Latest.astro';
+import fs from "node:fs";
+import path from "node:path";
+import Latest from "../components/Latest.astro";
+import ArticleLayout from "../layouts/ArticleLayout.astro";
 
 export async function getStaticPaths() {
-  const dir = path.resolve('./src/content');
-  const files = fs.readdirSync(dir).filter(file => file.endsWith('.mdx'));
+  const dir = path.resolve("./src/content");
+  const files = fs.readdirSync(dir).filter((file) => file.endsWith(".mdx"));
 
   return files.map((file) => ({
     params: {
-      slug: file.replace(/\.mdx$/, ''),
+      slug: file.replace(/\.mdx$/, ""),
     },
   }));
 }
 
 const { slug } = Astro.params;
-const { default: Content, frontmatter } = await import(`../content/${slug}.mdx`);
+const { default: Content, frontmatter } = await import(
+  `../content/${slug}.mdx`
+);
 ---
 
-<Layout 
+<ArticleLayout
   title={frontmatter.title}
   description={frontmatter.description}
   keywords={frontmatter.keywords}
@@ -29,4 +31,4 @@ const { default: Content, frontmatter } = await import(`../content/${slug}.mdx`)
     <Content />
     <Latest />
   </article>
-</Layout>
+</ArticleLayout>
