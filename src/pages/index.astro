@@ -1,8 +1,9 @@
 ---
+import List from "../components/List.astro";
 import Layout from "../layouts/Layout.astro";
 const { default: Content, frontmatter } = await import("../content/index.mdx");
 ---
 
 <Layout>
-  <p>hello there</p>
+  <List />
 </Layout>
