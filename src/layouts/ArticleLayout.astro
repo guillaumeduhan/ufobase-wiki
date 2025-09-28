@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { SEO } from "astro-seo";
 import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
 
 const {
   title = "AstroDirectory.dev — A lightning-fast & SEO-optimized template to build directories 2025",
@@ -81,6 +82,7 @@ const {
     </script>
   </head>
   <body class="grid gap-24">
+    <Header />
     <main class="flex max-w-[800px] mx-auto">
       <section>
         <div>
