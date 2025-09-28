@@ -1,0 +1,161 @@
+---
+interface PageLink {
+  slug: string;
+  title: string;
+  date: string;
+  keywords: string[];
+  description?: string;
+}
+
+const pages = import.meta.glob<{
+  frontmatter: { title?: string; date?: string; keywords?: string; description?: string };
+}>("/src/content/*.mdx", { eager: true });
+
+const allLinks: PageLink[] = Object.entries(pages)
+  .map(([path, mod]) => {
+    const slug = path.replace("/src/content/", "").replace(".mdx", "");
+
+    return {
+      slug,
+      title: mod.frontmatter?.title ?? slug,
+      date: mod.frontmatter?.date ?? "1970-01-01",
+      keywords: mod.frontmatter?.keywords
+        ? mod.frontmatter.keywords.split(",").map((k) => k.trim())
+        : [],
+      description: mod.frontmatter?.description ?? "",
+    };
+  })
+  .filter((link) => link.slug.toLowerCase() !== "index")
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// Collect unique keywords
+const uniqueKeywords = Array.from(
+  new Set(allLinks.flatMap((a) => a.keywords)),
+).sort();
+
+function isNewArticle(dateStr: string): boolean {
+  const published = new Date(dateStr);
+  const today = new Date();
+  const diffDays = Math.floor(
+    (today.getTime() - published.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  return diffDays <= 7;
+}
+---
+
+<script>
+  const select = document.addEventListener("DOMContentLoaded", () => {
+    const select = document.querySelector("#keyword");
+    const articles = document.querySelectorAll("#articles > div");
+    let visibleCount = 20;
+
+    // Show initial 20
+    articles.forEach((card, idx) => {
+      card.style.display = idx < visibleCount ? "block" : "none";
+    });
+
+    // Keyword filter
+    select?.addEventListener("change", (e) => {
+      const value = (e.target as HTMLSelectElement).value;
+      let count = 0;
+
+      articles.forEach((card) => {
+        card.style.display = "none";
+        const kws = card.dataset.keywords?.split(",") ?? [];
+
+        if (value === "All" || kws.includes(value)) {
+          if (count < visibleCount) {
+            card.style.display = "block";
+          }
+          count++;
+        }
+      });
+    });
+
+    // Load more button (always visible if > 20)
+    if (articles.length > 20) {
+      const loadMoreBtn = document.createElement("button");
+      loadMoreBtn.textContent = "Load More";
+      loadMoreBtn.className =
+        "mt-6 px-4 py-2 bg-neutral-200 dark:bg-neutral-700 rounded hover:bg-neutral-300 dark:hover:bg-neutral-600";
+      document.querySelector("#articles-list")?.appendChild(loadMoreBtn);
+
+      loadMoreBtn.addEventListener("click", () => {
+        visibleCount += 20;
+        const value = (select as HTMLSelectElement).value;
+        let count = 0;
+
+        articles.forEach((card) => {
+          const kws = card.dataset.keywords?.split(",") ?? [];
+
+          if (value === "All" || kws.includes(value)) {
+            if (count < visibleCount) {
+              card.style.display = "block";
+            }
+            count++;
+          }
+        });
+      });
+    }
+  });
+</script>
+
+<div class="grid gap-4 md:max-w-[1376px] mx-auto" id="articles-list">
+  <div>
+    <select
+      id="keyword"
+      class="border rounded font-[500] border-neutral-300 dark:border-neutral-800 px-3 py-1"
+    >
+      <option value="All">All</option>
+      {uniqueKeywords.map((kw) => <option value={kw}>{kw}</option>)}
+    </select>
+  </div>
+
+  <div
+    class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-[24px] md:content-start mx-auto"
+    id="articles"
+  >
+    {allLinks.map((link: any, idx: number) => (
+      <div
+        data-keywords={link.keywords.join(",")}
+        class="group cursor-pointer border border-neutral-300 dark:border-neutral-800 rounded shadow-sm grid gap-2"
+        style={{ display: idx < 20 ? "block" : "none" }}
+      >
+        <a href={`/${link.slug}`} target="_blank">
+          <div class="w-full max-h-[200px] min-h-[200px] bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400 dark:text-neutral-700">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"><path fill="currentColor" d="M6 17h12l-3.075-4.1q-.275-.05-.562-.125T13.8 12.6L11.25 16L9 13zm-1 4q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h5v2H5v14h14v-5.325l2 2V19q0 .825-.587 1.413T19 21zm16.55-7.6l-3.1-3.1q-.525.35-1.125.525T16.05 11q-1.85 0-3.15-1.312T11.6 6.5t1.313-3.187T16.1 2t3.188 1.313T20.6 6.5q0 .675-.2 1.3t-.5 1.15L22.95 12zM16.1 9q1.05 0 1.775-.725T18.6 6.5t-.725-1.775T16.1 4t-1.775.725T13.6 6.5t.725 1.775T16.1 9"/></svg>
+          </div>
+
+          <div class="grid gap-2 p-4 items-start justify-between">
+            <div class="flex items-center justify-between">
+              <a href={`/${link.slug}`} class="group-hover:text-orange-400 min-h-12 font-medium">
+                {link.title}
+              </a>
+              {isNewArticle(link.date) && (
+                <span class="text-xs font-semibold bg-green-500 text-white px-2 py-0.5 rounded">
+                  New
+                </span>
+              )}
+            </div>
+
+            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+              {link.description.slice(0, 120)}{link.description.length > 33 ? "…" : ""}
+            </p>
+
+            <div class="flex flex-wrap gap-1">
+              {link.keywords.map((kw: any) => (
+                <span class="text-xs bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 rounded cursor-pointer">
+                  {kw}
+                </span>
+              ))}
+            </div>
+
+            <div class="text-sm text-neutral-500 block mb-1">
+              {new Date(link.date).toLocaleDateString("fr-Fr")}
+            </div>
+          </div>
+        </a>
+      </div>
+    ))}
+  </div>
+</div>

@@ -1,13 +1,9 @@
 ---
-import Latest from '../components/Latest.astro';
-import Layout from '../layouts/Layout.astro';
-const { default: Content, frontmatter } = await import('../content/index.mdx');
+import List from "../components/List.astro";
+import Layout from "../layouts/Layout.astro";
+const { default: Content, frontmatter } = await import("../content/index.mdx");
 ---
 
 <Layout>
-  <article class="prose mx-auto p-4">
-    <h1>{frontmatter.title}</h1>
-    <Latest />
-    <Content />
-  </article>
+  <List />
 </Layout>
